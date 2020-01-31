@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Trip</title>
+     <style>
+        .wraper{
+            width: 1100px;
+            height: 1600px;
+            margin: 0 auto;
+            overflow: scroll;
+            border: 1px solid lightgray;
+        }
+
+        button{
+            width: 120px;
+            height: 26px;
+        }
+
+
+    </style>
+     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+      <link rel="stylesheet" href="/resources/demos/style.css">
+      <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <script>
+          $( function() {
+            $( ".datepicker" ).datepicker({dateFormat: "yy-mm-dd"});
+          } );
+      </script>
+</head>
+<body>
+    <div class="wraper">
+         <h1>Hello {{ logged_user.first_name }}! Let's edit your trip!</h1>
+         <a href="/logout">Log Out</a>
+
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+
+        <form action="/trips/updateTrip" method="post">
+             {% csrf_token %}
+            <fieldset>
+                <legend>edit trip</legend>
+                <P>Destination: <input type="text" name="destination" value="{{ the_trip.destination }}"/> </P>
+                <P>Start Date:<input type="text" class="datepicker" name="start_date" value="{{ start_date}}"/> </P>
+                <P>End Date:  <input type="text" class="datepicker" name="end_date" value="{{ end_date }}"/> </P>
+                <p> Plan: <textarea rows="4" cols="50" name="plan">{{ the_trip.plan }}</textarea></p>
+                <input type="hidden" name="trip_id" value="{{ the_trip.id }}"/>
+                <p><button>Edit</button>   <p><a href="/dashboard">cannel</a></p>
+
+            </fieldset>
+        </form>
+
+    </div>
+
+</body>
+</html>
